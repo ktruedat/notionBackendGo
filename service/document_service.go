@@ -5,6 +5,7 @@ import "github.com/ktruedat/notionBackendGo/repository"
 
 type IDocumentService interface {
 	CreateDocument(doc *model.Document) *model.Document
+	GetDocumentByID(id string) (*model.Document, error)
 }
 
 type DocumentService struct {
@@ -15,7 +16,11 @@ func NewDocumentService(repository repository.DocumentRepository) *DocumentServi
 	return &DocumentService{Repository: repository}
 }
 
-func (dSvc DocumentService) CreateDocument(doc *model.Document) *model.Document {
-	document, _ := dSvc.Repository.CreateDocument(doc)
-	return document
+func (docSvc DocumentService) CreateDocument(doc *model.Document) (*model.Document, error) {
+	document, err := docSvc.Repository.CreateDocument(doc)
+	return document, err
+}
+
+func (docSvc DocumentService) GetDocumentByID(id string) (*model.Document, error) {
+	return docSvc.Repository.GetDocumentByID(id)
 }
